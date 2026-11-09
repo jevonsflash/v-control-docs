@@ -1,0 +1,87 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * files set the primary brand color to V-Control orange (#FF7415,
+ * deep variant #ED6103 — see the V-Control color system docs).
+ *
+ * Color shades are derived from the primary color following the
+ * Infima convention (https://infima.dev/docs/css/palette).
+ */
+:root {
+  --ifm-color-primary: #ed6103;
+  --ifm-color-primary-dark: #e05c03;
+  --ifm-color-primary-darker: #d35603;
+  --ifm-color-primary-darkest: #ae4702;
+  --ifm-color-primary-light: #f07422;
+  --ifm-color-primary-lighter: #f28140;
+  --ifm-color-primary-lightest: #f5a071;
+  --ifm-color-primary-contrast-background: #fef4ea;
+  --ifm-link-hover-color: #ae4702;
+  --ifm-navbar-link-hover-color: #ed6103;
+  --ifm-menu-color-active: #ed6103;
+  --ifm-tabs-color-active: #ed6103;
+  --ifm-toc-link-color: #57534e;
+  --ifm-toc-link-color-active: #ed6103;
+  --ifm-breadcrumb-color-active: #ed6103;
+  --ifm-blockquote-color: #d35603;
+  --docusaurus-tag-link-border: #ed6103;
+}
+
+html[data-theme='dark'] {
+  --ifm-color-primary: #ff8a3d;
+  --ifm-color-primary-dark: #ff7b26;
+  --ifm-color-primary-darker: #ff6d0f;
+  --ifm-color-primary-darkest: #f06000;
+  --ifm-color-primary-light: #ff9b57;
+  --ifm-color-primary-lighter: #ffac71;
+  --ifm-color-primary-lightest: #ffc9a3;
+  --ifm-color-primary-contrast-background: #3a1c05;
+  --ifm-link-hover-color: #ffc9a3;
+  --ifm-navbar-link-hover-color: #ff8a3d;
+  --ifm-menu-color-active: #ff8a3d;
+  --ifm-tabs-color-active: #ff8a3d;
+  --ifm-toc-link-color: #b8b0a8;
+  --ifm-toc-link-color-active: #ff8a3d;
+  --ifm-breadcrumb-color-active: #ff8a3d;
+  --ifm-blockquote-color: #ff9b57;
+  --docusaurus-tag-link-border: #ff8a3d;
+}
+
+/* Make the active navbar item use the brand color. */
+.navbar__link--active,
+.navbar__link:hover {
+  color: var(--ifm-color-primary);
+}
+
+/* Sidebar active link keeps the brand color in both modes. */
+.menu__link--active,
+.menu__link:hover {
+  color: var(--ifm-color-primary);
+}
+
+/* Pagination arrows and edit links. */
+.pagination-nav__link:hover {
+  border-color: var(--ifm-color-primary);
+}
+
+/* Buttons keep a strong brand presence. */
+.button--primary {
+  --ifm-button-background-color: #ed6103;
+  --ifm-button-border-color: #ed6103;
+  --ifm-button-color: #ffffff;
+}
+
+.button--primary:hover {
+  --ifm-button-background-color: #d35603;
+  --ifm-button-border-color: #d35603;
+}
+
+html[data-theme='dark'] .button--primary {
+  --ifm-button-background-color: #ff7415;
+  --ifm-button-border-color: #ff7415;
+  --ifm-button-color: #ffffff;
+}
+
+html[data-theme='dark'] .button--primary:hover {
+  --ifm-button-background-color: #ff8a3d;
+  --ifm-button-border-color: #ff8a3d;
+}
