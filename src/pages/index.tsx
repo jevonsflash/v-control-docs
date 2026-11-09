@@ -2,166 +2,232 @@ import { useCallback, useEffect, useState } from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import { translate } from '@docusaurus/Translate';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import { useGitHubStars, formatStarCount } from '../hooks/useGitHubStars';
+import { StarIcon } from '../components/GitHubIcons';
 import styles from './index.module.css';
 
 const GITHUB_URL = 'https://github.com/jevonsflash/V-Control';
 const INSTALL_CMD = 'dotnet add package VControl';
+/** Number of entries in the Components category of sidebars.ts. */
+const COMPONENT_TOTAL = 21;
 
 interface Cell {
   no: string;
   img: string;
-  zh: string;
+  /** Localized display name. */
+  name: string;
   cls: string;
   slug: string | null;
   xaml: string | null;
+  /** Localized prose, for cells with no XAML snippet to show. */
   note: string | null;
 }
 
-const CELLS: Cell[] = [
-  {
-    no: '01',
-    img: 'image-1.png',
-    zh: '按钮',
-    cls: 'VButton',
-    slug: 'v-button',
-    xaml: '<control:VButton TitleText="BUTTON"></control:VButton>',
-    note: null,
-  },
-  {
-    no: '02',
-    img: 'image-2.png',
-    zh: '表单输入',
-    cls: 'VEntry',
-    slug: 'v-entry',
-    xaml: '<control:VEntry></control:VEntry>',
-    note: null,
-  },
-  {
-    no: '03',
-    img: 'image-3.png',
-    zh: '日期选择',
-    cls: 'VDatePicker',
-    slug: 'v-datepicker',
-    xaml: '<control:VDatePicker></control:VDatePicker>',
-    note: null,
-  },
-  {
-    no: '04',
-    img: 'image-4.png',
-    zh: '搜索栏',
-    cls: 'VSearchBar',
-    slug: 'v-searchbar',
-    xaml: '<control:VSearchBar></control:VSearchBar>',
-    note: null,
-  },
-  {
-    no: '05',
-    img: 'image-5.png',
-    zh: '菜单列表',
-    cls: 'VMenuCell',
-    slug: 'v-menu-cell',
-    xaml:
-      '<control:VMenuCell MenuText="My Profile"\n' +
-      '                    IconText="&#xf007;"\n' +
-      '                    Command="{Binding MessageCommand}"\n' +
-      '                    CommandParameter="ProfilePage"></control:VMenuCell>',
-    note: null,
-  },
-  {
-    no: '06',
-    img: 'image-6.png',
-    zh: '时间线',
-    cls: 'VTimeLine',
-    slug: 'v-timeline',
-    xaml: '<control:VTimeLine ItemsSource="{Binding ProBarList}"></control:VTimeLine>',
-    note: null,
-  },
-  {
-    no: '07',
-    img: 'image-7.png',
-    zh: '标签选择',
-    cls: 'VTagPicker',
-    slug: 'v-tag-picker',
-    xaml: '<control:VTagPicker ItemsSource="{Binding SelectedCountryList}"></control:VTagPicker>',
-    note: null,
-  },
-  {
-    no: '08',
-    img: 'image-8.png',
-    zh: '空状态',
-    cls: 'VPlaceholderView',
-    slug: 'v-placeholder-view',
-    xaml: '<control:VPlaceholderView></control:VPlaceholderView>',
-    note: null,
-  },
-  {
-    no: '09',
-    img: 'image-9.png',
-    zh: '折叠面板',
-    cls: 'VExpander',
-    slug: 'v-expander',
-    xaml:
-      '<control:VExpander TitleText="Title">\n' +
-      '    <control:VExpander.ContentSlot>\n' +
-      '        <Label Text="Content"></Label>\n' +
-      '    </control:VExpander.ContentSlot>\n' +
-      '</control:VExpander>',
-    note: null,
-  },
-  {
-    no: '10',
-    img: 'image-10.png',
-    zh: '卡片集合',
-    cls: 'VCollection',
-    slug: 'v-collection',
-    xaml: '<control:VCollection ItemsSource="{Binding InternalEmailList}">\n</control:VCollection>',
-    note: null,
-  },
-  {
-    no: '11',
-    img: 'image-11.png',
-    zh: '数字输入',
-    cls: 'VNumberEntry',
-    slug: 'v-number-entry',
-    xaml: '<control:VNumberEntry></control:VNumberEntry>',
-    note: null,
-  },
-  {
-    no: '12',
-    img: 'image-12.png',
-    zh: '可选列表',
-    cls: 'VCheckableCollection',
-    slug: 'v-checkable-collection',
-    xaml:
-      '<control:VCheckableCollection ItemsSource="{Binding InternalEmailList}"\n' +
-      '                            SelectedItems="{Binding SelectedEmailList}">\n' +
-      '</control:VCheckableCollection>',
-    note: null,
-  },
-  {
-    no: '13',
-    img: 'image-13.png',
-    zh: '富文本',
-    cls: 'VRichTextEditor',
-    slug: 'v-rich-text-editor',
-    xaml: null,
-    note: '所见即所得编辑器：输入与样式修改实时反映在编辑器内。用法与属性表见文档。',
-  },
-  {
-    no: '14',
-    img: 'image-14.png',
-    zh: '沉浸头图',
-    cls: '',
-    slug: null,
-    xaml: null,
-    note: '真实业务屏：暗色照片内容上的沉浸头图，控件在暗色内容里同样成立。',
-  },
-];
+/**
+ * The 14 bench cells. Display names and notes go through translate() with
+ * literal ids so `docusaurus write-translations` can extract them; the default
+ * locale is English, and the Chinese strings live in i18n/zh/code.json.
+ */
+function useCells(): Cell[] {
+  return [
+    {
+      no: '01',
+      img: 'image-1.png',
+      name: translate({ id: 'homepage.cell.v-button.name', message: 'Button' }),
+      cls: 'VButton',
+      slug: 'v-button',
+      xaml: '<control:VButton TitleText="BUTTON"></control:VButton>',
+      note: null,
+    },
+    {
+      no: '02',
+      img: 'image-2.png',
+      name: translate({
+        id: 'homepage.cell.v-entry.name',
+        message: 'Text Entry',
+      }),
+      cls: 'VEntry',
+      slug: 'v-entry',
+      xaml: '<control:VEntry></control:VEntry>',
+      note: null,
+    },
+    {
+      no: '03',
+      img: 'image-3.png',
+      name: translate({
+        id: 'homepage.cell.v-datepicker.name',
+        message: 'Date Picker',
+      }),
+      cls: 'VDatePicker',
+      slug: 'v-datepicker',
+      xaml: '<control:VDatePicker></control:VDatePicker>',
+      note: null,
+    },
+    {
+      no: '04',
+      img: 'image-4.png',
+      name: translate({
+        id: 'homepage.cell.v-searchbar.name',
+        message: 'Search Bar',
+      }),
+      cls: 'VSearchBar',
+      slug: 'v-searchbar',
+      xaml: '<control:VSearchBar></control:VSearchBar>',
+      note: null,
+    },
+    {
+      no: '05',
+      img: 'image-5.png',
+      name: translate({
+        id: 'homepage.cell.v-menu-cell.name',
+        message: 'Menu List',
+      }),
+      cls: 'VMenuCell',
+      slug: 'v-menu-cell',
+      xaml:
+        '<control:VMenuCell MenuText="My Profile"\n' +
+        '                    IconText="&#xf007;"\n' +
+        '                    Command="{Binding MessageCommand}"\n' +
+        '                    CommandParameter="ProfilePage"></control:VMenuCell>',
+      note: null,
+    },
+    {
+      no: '06',
+      img: 'image-6.png',
+      name: translate({
+        id: 'homepage.cell.v-timeline.name',
+        message: 'Timeline',
+      }),
+      cls: 'VTimeLine',
+      slug: 'v-timeline',
+      xaml: '<control:VTimeLine ItemsSource="{Binding ProBarList}"></control:VTimeLine>',
+      note: null,
+    },
+    {
+      no: '07',
+      img: 'image-7.png',
+      name: translate({
+        id: 'homepage.cell.v-tag-picker.name',
+        message: 'Tag Picker',
+      }),
+      cls: 'VTagPicker',
+      slug: 'v-tag-picker',
+      xaml: '<control:VTagPicker ItemsSource="{Binding SelectedCountryList}"></control:VTagPicker>',
+      note: null,
+    },
+    {
+      no: '08',
+      img: 'image-8.png',
+      name: translate({
+        id: 'homepage.cell.v-placeholder-view.name',
+        message: 'Empty State',
+      }),
+      cls: 'VPlaceholderView',
+      slug: 'v-placeholder-view',
+      xaml: '<control:VPlaceholderView></control:VPlaceholderView>',
+      note: null,
+    },
+    {
+      no: '09',
+      img: 'image-9.png',
+      name: translate({
+        id: 'homepage.cell.v-expander.name',
+        message: 'Expander',
+      }),
+      cls: 'VExpander',
+      slug: 'v-expander',
+      xaml:
+        '<control:VExpander TitleText="Title">\n' +
+        '    <control:VExpander.ContentSlot>\n' +
+        '        <Label Text="Content"></Label>\n' +
+        '    </control:VExpander.ContentSlot>\n' +
+        '</control:VExpander>',
+      note: null,
+    },
+    {
+      no: '10',
+      img: 'image-10.png',
+      name: translate({
+        id: 'homepage.cell.v-collection.name',
+        message: 'Card Collection',
+      }),
+      cls: 'VCollection',
+      slug: 'v-collection',
+      xaml: '<control:VCollection ItemsSource="{Binding InternalEmailList}">\n</control:VCollection>',
+      note: null,
+    },
+    {
+      no: '11',
+      img: 'image-11.png',
+      name: translate({
+        id: 'homepage.cell.v-number-entry.name',
+        message: 'Number Entry',
+      }),
+      cls: 'VNumberEntry',
+      slug: 'v-number-entry',
+      xaml: '<control:VNumberEntry></control:VNumberEntry>',
+      note: null,
+    },
+    {
+      no: '12',
+      img: 'image-12.png',
+      name: translate({
+        id: 'homepage.cell.v-checkable-collection.name',
+        message: 'Selectable List',
+      }),
+      cls: 'VCheckableCollection',
+      slug: 'v-checkable-collection',
+      xaml:
+        '<control:VCheckableCollection ItemsSource="{Binding InternalEmailList}"\n' +
+        '                            SelectedItems="{Binding SelectedEmailList}">\n' +
+        '</control:VCheckableCollection>',
+      note: null,
+    },
+    {
+      no: '13',
+      img: 'image-13.png',
+      name: translate({
+        id: 'homepage.cell.v-rich-text-editor.name',
+        message: 'Rich Text',
+      }),
+      cls: 'VRichTextEditor',
+      slug: 'v-rich-text-editor',
+      xaml: null,
+      note: translate({
+        id: 'homepage.cell.v-rich-text-editor.note',
+        message:
+          'WYSIWYG editor: typing and styling show up in place. Usage and the property table are in the docs.',
+      }),
+    },
+    {
+      no: '14',
+      img: 'image-14.png',
+      name: translate({
+        id: 'homepage.cell.immersive-header.name',
+        message: 'Immersive Header',
+      }),
+      cls: '',
+      slug: null,
+      xaml: null,
+      note: translate({
+        id: 'homepage.cell.immersive-header.note',
+        message:
+          'A real business screen: an immersive header over dark photo content — the controls hold up on dark content too.',
+      }),
+    },
+  ];
+}
 
 export default function Home(): React.JSX.Element {
   const [open, setOpen] = useState<Cell | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
   const imgBase = useBaseUrl('/img/screenshots/');
+  const stars = useGitHubStars();
+  const cells = useCells();
+  const { i18n } = useDocusaurusContext();
+  const isZh = i18n.currentLocale === 'zh';
 
   const copy = useCallback(async (text: string, key: string) => {
     try {
@@ -173,6 +239,20 @@ export default function Home(): React.JSX.Element {
       window.setTimeout(() => setCopied(null), 1600);
     }
   }, []);
+
+  /** Idle / done / failed label, shared by every copy button on the page. */
+  const copyLabel = useCallback(
+    (key: string, idle: string) => {
+      if (copied === key) {
+        return translate({ id: 'homepage.copied', message: '✓ Copied' });
+      }
+      if (copied === `${key}-fail`) {
+        return translate({ id: 'homepage.copyFailed', message: 'Copy failed' });
+      }
+      return idle;
+    },
+    [copied],
+  );
 
   useEffect(() => {
     if (!open) return;
@@ -190,34 +270,134 @@ export default function Home(): React.JSX.Element {
   return (
     <Layout
       title="V-Control"
-      description="V-Control — an out-of-the-box .NET MAUI component library · 开箱即用的 .NET MAUI 组件库">
+      description={translate({
+        id: 'homepage.description',
+        message: 'V-Control — an out-of-the-box .NET MAUI component library',
+      })}>
       <main>
         <section
           className={`${styles.bench} ${open ? styles.benchDim : ''}`}
-          aria-label="V-Control 组件检录台">
+          aria-label={translate({
+            id: 'homepage.bench.ariaLabel',
+            message: 'V-Control component bench',
+          })}>
           <div className={styles.plate}>
-            <p className={styles.plateKicker}>.NET MAUI · Open Source</p>
+            <p className={styles.plateKicker}>
+              <img
+                className={styles.plateKickerLogo}
+                src={useBaseUrl('/microsoft.svg')}
+                alt="Microsoft"
+                width={18}
+                height={18}
+              />
+              <span className={styles.plateKickerText}>
+               For .NET Multi-Platform App UI
+              </span>
+            </p>
             <h1 className={styles.plateTitle}>V-Control</h1>
-            <p className={styles.plateTagZh}>开箱即用的 .NET MAUI 组件库</p>
-            <p className={styles.plateTagEn}>
-              An out-of-the-box .NET MAUI component library
+            {/* Tagline in the current locale first, then in the other one. */}
+            <p className={styles.plateTagPrimary}>
+              {translate({
+                id: 'homepage.tagline',
+                message: 'An out-of-the-box .NET MAUI component library',
+              })}
             </p>
-            <p className={styles.plateNote}>
-              14 帧真实控件渲染，全在台上。
-              <br />
-              点任意一格，当场验货。
+            <p className={styles.plateTagSecondary}>
+              {isZh
+                ? 'An out-of-the-box .NET MAUI component library'
+                : '开箱即用的 .NET MAUI 组件库'}
             </p>
+            {/* 安装方式指引：mac 风格 mock bash */}
+            <div className={styles.term}>
+              <div className={styles.termBar}>
+                <span className={styles.termDots} aria-hidden="true">
+                  <i />
+                  <i />
+                  <i />
+                </span>
+                <span className={styles.termTitle}>bash — install</span>
+                <button
+                  type="button"
+                  className={styles.termCopy}
+                  onClick={() => copy(INSTALL_CMD, 'install')}
+                  aria-label={translate({
+                    id: 'homepage.install.copyAriaLabel',
+                    message: 'Copy the install command',
+                  })}>
+                  {copyLabel(
+                    'install',
+                    translate({ id: 'homepage.install.copy', message: 'Copy' }),
+                  )}
+                </button>
+              </div>
+              <div className={styles.termBody}>
+                <p className={styles.termStep}>
+                  <i className={styles.termHash}>#</i>
+                  {translate({
+                    id: 'homepage.install.step1',
+                    message: '① Install the NuGet package',
+                  })}
+                </p>
+                <p className={styles.termCmd}>
+                  <i className={styles.termPrompt}>$</i>
+                  {INSTALL_CMD}
+                </p>
+                <p className={styles.termOut}>
+                  {translate({
+                    id: 'homepage.install.step1Alt',
+                    message: 'or search “V-Control” on NuGet',
+                  })}
+                </p>
+                <p className={styles.termStep}>
+                  <i className={styles.termHash}>#</i>
+                  {translate({
+                    id: 'homepage.install.step2',
+                    message: '② Register the handler in MauiProgram.cs',
+                  })}
+                </p>
+                <p className={styles.termCode}>.UseVControl()</p>
+                <p className={styles.termStep}>
+                  <i className={styles.termHash}>#</i>
+                  {translate({
+                    id: 'homepage.install.step3',
+                    message: '③ Add the theme in App.xaml',
+                  })}
+                </p>
+                <p className={styles.termCode}>&lt;v:VControlTheme /&gt;</p>
+                <Link className={styles.termLink} to="/docs/starter">
+                  <i className={styles.termPrompt}>$</i>
+                  {translate({
+                    id: 'homepage.install.fullGuide',
+                    message: 'full install guide',
+                  })}
+                  <i className={styles.termArrow} aria-hidden="true">
+                    →
+                  </i>
+                </Link>
+              </div>
+            </div>
             <div className={styles.plateActions}>
               <Link className={styles.pillSolid} to="/docs/v-button">
-                进入组件文档
+                {translate({
+                  id: 'homepage.cta.docs',
+                  message: 'Component docs',
+                })}
               </Link>
               <Link className={styles.pillGhost} to={GITHUB_URL}>
                 GitHub
+                {stars !== null && (
+                  <span
+                    className={styles.pillStars}
+                    title={`${stars} stars on GitHub`}>
+                    <StarIcon />
+                    {formatStarCount(stars)}
+                  </span>
+                )}
               </Link>
             </div>
           </div>
 
-          {CELLS.map((c, i) => (
+          {cells.map((c, i) => (
             <button
               key={c.no}
               type="button"
@@ -225,38 +405,65 @@ export default function Home(): React.JSX.Element {
               style={{ '--d': `${60 + i * 30}ms` } as React.CSSProperties}
               onClick={() => setOpen(c)}
               aria-haspopup="dialog"
-              aria-label={`${c.no} ${c.zh}${c.cls ? ` ${c.cls}` : ''}，打开检视卡`}>
+              aria-label={translate(
+                {
+                  id: 'homepage.cell.ariaLabel',
+                  message: '{no} {name}{cls} — open the inspection card',
+                },
+                { no: c.no, name: c.name, cls: c.cls ? ` ${c.cls}` : '' },
+              )}>
               <span className={styles.cellImg}>
                 <img
                   src={`${imgBase}${c.img}`}
-                  alt={`${c.zh}控件真实渲染截图`}
+                  alt={translate(
+                    {
+                      id: 'homepage.cell.imgAlt',
+                      message: 'Screenshot of the {name} control',
+                    },
+                    { name: c.name },
+                  )}
                   loading={i < 5 ? 'eager' : 'lazy'}
                 />
               </span>
               <span className={styles.cellLabel}>
-                <i className={styles.cellNo}>{c.no}</i>
-                <b className={styles.cellZh}>{c.zh}</b>
+                <b className={styles.cellName}>{c.name}</b>
                 {c.cls && <span className={styles.cellCls}>{c.cls}</span>}
               </span>
             </button>
           ))}
 
-          <div
-            className={styles.install}
-            style={{ '--d': `${60 + CELLS.length * 30}ms` } as React.CSSProperties}>
-            <p className={styles.installKicker}>Install · 安装</p>
-            <code className={styles.installCmd}>{INSTALL_CMD}</code>
-            <button
-              type="button"
-              className={styles.installCopy}
-              onClick={() => copy(INSTALL_CMD, 'install')}>
-              {copied === 'install'
-                ? '✓ 已复制'
-                : copied === 'install-fail'
-                  ? '复制失败'
-                  : '复制'}
-            </button>
-          </div>
+          <Link
+            className={styles.more}
+            to="/docs/components"
+            style={{ '--d': `${60 + cells.length * 30}ms` } as React.CSSProperties}>
+            <p className={styles.moreKicker}>
+              {translate({
+                id: 'homepage.more.kicker',
+                message: 'Components · Directory',
+              })}
+            </p>
+            <p className={styles.moreCount}>
+              <b>{COMPONENT_TOTAL}</b>
+              <span>
+                {translate({
+                  id: 'homepage.more.countLine1',
+                  message: 'controls in total',
+                })}
+                <br />
+                {translate({
+                  id: 'homepage.more.countLine2',
+                  message: 'every one documented',
+                })}
+              </span>
+            </p>
+            <span className={styles.moreBtn}>
+              {translate({
+                id: 'homepage.more.cta',
+                message: 'Browse all components',
+              })}
+              <i aria-hidden="true">→</i>
+            </span>
+          </Link>
         </section>
 
         {open && (
@@ -268,18 +475,30 @@ export default function Home(): React.JSX.Element {
               className={styles.card}
               role="dialog"
               aria-modal="true"
-              aria-label={`${open.zh}检视卡`}
+              aria-label={translate(
+                {
+                  id: 'homepage.card.ariaLabel',
+                  message: '{name} inspection card',
+                },
+                { name: open.name },
+              )}
               onClick={(e) => e.stopPropagation()}>
               <div className={styles.cardImg}>
                 <img
                   src={`${imgBase}${open.img}`}
-                  alt={`${open.zh}控件真实渲染截图`}
+                  alt={translate(
+                    {
+                      id: 'homepage.cell.imgAlt',
+                      message: 'Screenshot of the {name} control',
+                    },
+                    { name: open.name },
+                  )}
                 />
               </div>
               <div className={styles.cardBody}>
                 <div className={styles.cardHead}>
                   <span className={styles.cardNo}>{open.no}</span>
-                  <span className={styles.cardZh}>{open.zh}</span>
+                  <span className={styles.cardName}>{open.name}</span>
                   {open.cls && (
                     <span className={styles.cardCls}>{open.cls}</span>
                   )}
@@ -287,7 +506,10 @@ export default function Home(): React.JSX.Element {
                     type="button"
                     className={styles.cardClose}
                     onClick={() => setOpen(null)}
-                    aria-label="关闭检视卡">
+                    aria-label={translate({
+                      id: 'homepage.card.close',
+                      message: 'Close the inspection card',
+                    })}>
                     ✕
                   </button>
                 </div>
@@ -303,7 +525,10 @@ export default function Home(): React.JSX.Element {
                     <Link
                       className={styles.pillSolid}
                       to={`/docs/${open.slug}`}>
-                      进入文档
+                      {translate({
+                        id: 'homepage.card.docs',
+                        message: 'Open docs',
+                      })}
                     </Link>
                   )}
                   {open.xaml && (
@@ -311,11 +536,13 @@ export default function Home(): React.JSX.Element {
                       type="button"
                       className={styles.pillGhost}
                       onClick={() => copy(open.xaml!, `xaml-${open.no}`)}>
-                      {copied === `xaml-${open.no}`
-                        ? '✓ 已复制'
-                        : copied === `xaml-${open.no}-fail`
-                          ? '复制失败'
-                          : '复制 XAML'}
+                      {copyLabel(
+                        `xaml-${open.no}`,
+                        translate({
+                          id: 'homepage.card.copyXaml',
+                          message: 'Copy XAML',
+                        }),
+                      )}
                     </button>
                   )}
                 </div>

@@ -85,3 +85,179 @@ html[data-theme='dark'] .button--primary:hover {
   --ifm-button-background-color: #ff8a3d;
   --ifm-button-border-color: #ff8a3d;
 }
+
+/* ── 导航栏 GitHub 按钮的 star 数徽章 ────────────────────────────
+   （src/theme/NavbarItem/CustomGithubStar.tsx） */
+.github-star-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.github-star-link svg {
+  fill: currentColor;
+}
+
+.github-star-link__icon {
+  width: 17px;
+  height: 17px;
+}
+
+.github-star-link__count {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--ifm-color-primary-contrast-background);
+  color: var(--ifm-color-primary);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 18px;
+  white-space: nowrap;
+}
+
+.github-star-link__count svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* 移动端侧边菜单里保持同样的行内布局 */
+.navbar-sidebar .github-star-link {
+  gap: 8px;
+}
+
+/* ── 站点页脚 ──────────────────────────────────────────────────
+   结构见 src/theme/Footer/index.tsx：左侧品牌块 + 右侧分组链接列 +
+   底部版权条（参考 Napacitor 页脚）。配色沿用检录台的 ink/orange。 */
+
+.site-footer {
+  --sf-line: #27272a;
+  --sf-ink: #f4f4f5;
+  --sf-ink-2: #a1a1aa;
+  --sf-ink-3: #71717a;
+  background: #18181b;
+  color: var(--sf-ink-2);
+  font-family: 'Noto Sans SC', -apple-system, 'Segoe UI', 'PingFang SC',
+    'Microsoft YaHei', sans-serif;
+}
+
+.site-footer .footer-main,
+.site-footer .footer-bottom {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.site-footer .footer-main {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px 48px;
+  padding: 44px 24px 32px;
+}
+
+.site-footer .footer-brand {
+  flex: 0 1 280px;
+}
+
+.site-footer .brand-link,
+.site-footer .brand-link:hover {
+  color: var(--sf-ink);
+  text-decoration: none;
+}
+
+.site-footer .brand-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Space Grotesk', 'Noto Sans SC', -apple-system, sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.site-footer .brand-mark img {
+  display: block;
+  border-radius: 7px;
+}
+
+.site-footer .brand-tag {
+  max-width: 32ch;
+  margin: 12px 0 0;
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: var(--sf-ink-3);
+}
+
+.site-footer .footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px 56px;
+  margin-left: auto;
+}
+
+.site-footer .footer-links h3 {
+  margin: 0 0 10px;
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas,
+    monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sf-ink-3);
+}
+
+.site-footer .footer-links a {
+  display: block;
+  padding: 5px 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--sf-ink-2);
+  transition: color 0.18s;
+}
+
+.site-footer .footer-links a:hover {
+  color: #ff8a3d;
+  text-decoration: none;
+}
+
+.site-footer .footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 20px;
+  padding: 16px 24px 22px;
+  border-top: 1px solid var(--sf-line);
+  font-size: 12.5px;
+  color: var(--sf-ink-3);
+}
+
+.site-footer .footer-bottom a {
+  color: var(--sf-ink-3);
+  transition: color 0.18s;
+}
+
+.site-footer .footer-bottom a:hover {
+  color: #ff8a3d;
+  text-decoration: none;
+}
+
+.site-footer .footer-bottom .to-top {
+  margin-left: auto;
+}
+
+@media (max-width: 700px) {
+  .site-footer .footer-main {
+    gap: 26px 32px;
+    padding: 32px 18px 24px;
+  }
+
+  .site-footer .footer-links {
+    width: 100%;
+    margin-left: 0;
+    gap: 24px 40px;
+  }
+
+  .site-footer .footer-bottom {
+    padding: 14px 18px 20px;
+  }
+}

@@ -1,14 +1,26 @@
 {
   "sidebar.docs.category.Getting Started": {
     "message": "开始",
-    "description": "The label for category Getting Started in sidebar docs"
+    "description": "The label for category 'Getting Started' in sidebar 'docs'"
   },
   "sidebar.docs.category.Basics": {
     "message": "基础",
-    "description": "The label for category Basics in sidebar docs"
+    "description": "The label for category 'Basics' in sidebar 'docs'"
   },
   "sidebar.docs.category.Components": {
     "message": "组件",
-    "description": "The label for category Components in sidebar docs"
+    "description": "The label for category 'Components' in sidebar 'docs'"
+  },
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.docs.category.Components.link.generated-index.title": {
+    "message": "组件",
+    "description": "The generated-index page title for category 'Components' in sidebar 'docs'"
+  },
+  "sidebar.docs.category.Components.link.generated-index.description": {
+    "message": "全部 V-Control 控件文档一览，点卡片进入。",
+    "description": "The generated-index page description for category 'Components' in sidebar 'docs'"
   }
 }

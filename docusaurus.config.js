@@ -52,40 +52,18 @@ module.exports = {
           position: 'right',
         },
         {
+          // 自定义项：GitHub 链接 + 实时 star 数徽章
+          // （src/theme/NavbarItem/CustomGithubStar.tsx）
+          type: 'custom-githubStar',
           href: 'https://github.com/jevonsflash/V-Control',
           label: 'GitHub',
           position: 'right',
         },
       ],
     },
-    footer: {
-      style: 'dark',
-      links: [
-        {
-          title: 'Docs',
-          items: [
-            {
-              label: 'Getting Started',
-              to: '/docs/starter',
-            },
-            {
-              label: 'Components',
-              to: '/docs/v-button',
-            },
-          ],
-        },
-        {
-          title: 'More',
-          items: [
-            {
-              label: 'GitHub',
-              href: 'https://github.com/jevonsflash/V-Control',
-            },
-          ],
-        },
-      ],
-      copyright: `Copyright © ${new Date().getFullYear()} V-Control. Built with Docusaurus.`,
-    },
+    // The footer is fully custom (brand block + link columns + bottom bar):
+    // see src/theme/Footer/index.tsx. Its labels are translated through
+    // i18n/zh/code.json, so there is nothing to configure here.
     prism: {
       theme: themes.github,
       darkTheme: themes.dracula,

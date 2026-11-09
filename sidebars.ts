@@ -25,6 +25,13 @@ const sidebars: SidebarsConfig = {
       type: 'category',
       label: 'Components',
       collapsed: false,
+      // Landing page for the "查看更多组件" tile on the home bench.
+      link: {
+        type: 'generated-index',
+        title: 'Components · 组件',
+        description: 'Every V-Control control in one place · 全部控件文档一览，点卡片进入。',
+        slug: '/components',
+      },
       items: [
         'v-button',
         'v-entry',

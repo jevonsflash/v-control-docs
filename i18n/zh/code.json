@@ -65,7 +65,7 @@
   },
   "theme.colorToggle.ariaLabel": {
     "message": "切换浅色/暗黑模式（当前为{mode}）",
-    "description": "The ARIA label for the navbar color mode toggle"
+    "description": "The ARIA label for the color mode toggle"
   },
   "theme.colorToggle.ariaLabel.mode.dark": {
     "message": "暗黑模式",
@@ -456,5 +456,181 @@
   "theme.tags.tagsPageTitle": {
     "message": "标签",
     "description": "The title of the tag list page"
+  },
+  "homepage.cell.v-button.name": {
+    "message": "按钮"
+  },
+  "homepage.cell.v-entry.name": {
+    "message": "表单输入"
+  },
+  "homepage.cell.v-datepicker.name": {
+    "message": "日期选择"
+  },
+  "homepage.cell.v-searchbar.name": {
+    "message": "搜索栏"
+  },
+  "homepage.cell.v-menu-cell.name": {
+    "message": "菜单列表"
+  },
+  "homepage.cell.v-timeline.name": {
+    "message": "时间线"
+  },
+  "homepage.cell.v-tag-picker.name": {
+    "message": "标签选择"
+  },
+  "homepage.cell.v-placeholder-view.name": {
+    "message": "空状态"
+  },
+  "homepage.cell.v-expander.name": {
+    "message": "折叠面板"
+  },
+  "homepage.cell.v-collection.name": {
+    "message": "卡片集合"
+  },
+  "homepage.cell.v-number-entry.name": {
+    "message": "数字输入"
+  },
+  "homepage.cell.v-checkable-collection.name": {
+    "message": "可选列表"
+  },
+  "homepage.cell.v-rich-text-editor.name": {
+    "message": "富文本"
+  },
+  "homepage.cell.v-rich-text-editor.note": {
+    "message": "所见即所得编辑器：输入与样式修改实时反映在编辑器内。用法与属性表见文档。"
+  },
+  "homepage.cell.immersive-header.name": {
+    "message": "沉浸头图"
+  },
+  "homepage.cell.immersive-header.note": {
+    "message": "真实业务屏：暗色照片内容上的沉浸头图，控件在暗色内容里同样成立。"
+  },
+  "homepage.copied": {
+    "message": "✓ 已复制"
+  },
+  "homepage.copyFailed": {
+    "message": "复制失败"
+  },
+  "homepage.description": {
+    "message": "V-Control — 开箱即用的 .NET MAUI 组件库"
+  },
+  "homepage.bench.ariaLabel": {
+    "message": "V-Control 组件检录台"
+  },
+  "homepage.tagline": {
+    "message": "开箱即用的 .NET MAUI 组件库"
+  },
+  "homepage.install.copyAriaLabel": {
+    "message": "复制安装命令"
+  },
+  "homepage.install.copy": {
+    "message": "复制"
+  },
+  "homepage.install.step1": {
+    "message": "① 安装 NuGet 包"
+  },
+  "homepage.install.step1Alt": {
+    "message": "或在 NuGet 搜索 “V-Control”"
+  },
+  "homepage.install.step2": {
+    "message": "② MauiProgram.cs 注册处理器"
+  },
+  "homepage.install.step3": {
+    "message": "③ App.xaml 引入主题"
+  },
+  "homepage.install.fullGuide": {
+    "message": "完整安装指引"
+  },
+  "homepage.cta.docs": {
+    "message": "进入组件文档"
+  },
+  "homepage.cell.ariaLabel": {
+    "message": "{no} {name}{cls}，打开检视卡"
+  },
+  "homepage.cell.imgAlt": {
+    "message": "{name}控件真实渲染截图"
+  },
+  "homepage.more.kicker": {
+    "message": "Components · 组件目录"
+  },
+  "homepage.more.countLine1": {
+    "message": "个控件全量收录"
+  },
+  "homepage.more.countLine2": {
+    "message": "文档里逐个可查"
+  },
+  "homepage.more.cta": {
+    "message": "查看更多组件"
+  },
+  "homepage.card.ariaLabel": {
+    "message": "{name}检视卡"
+  },
+  "homepage.card.close": {
+    "message": "关闭检视卡"
+  },
+  "homepage.card.docs": {
+    "message": "进入文档"
+  },
+  "homepage.card.copyXaml": {
+    "message": "复制 XAML"
+  },
+  "footer.column.product": {
+    "message": "产品"
+  },
+  "footer.link.bench": {
+    "message": "组件检录台"
+  },
+  "footer.link.components": {
+    "message": "组件目录"
+  },
+  "footer.column.resources": {
+    "message": "资源"
+  },
+  "footer.link.starter": {
+    "message": "快速开始"
+  },
+  "footer.link.nuget": {
+    "message": "NuGet 包"
+  },
+  "footer.link.mauiDocs": {
+    "message": ".NET Multi-Platform App UI 文档"
+  },
+  "footer.column.project": {
+    "message": "项目"
+  },
+  "footer.link.issues": {
+    "message": "问题反馈"
+  },
+  "footer.link.releases": {
+    "message": "版本发布"
+  },
+  "footer.tagline": {
+    "message": "开箱即用的 .NET MAUI 组件库"
+  },
+  "footer.copyright": {
+    "message": "© {year} V-Control. 保留所有权利。"
+  },
+  "footer.backToTop": {
+    "message": "回到顶部 ↑"
+  },
+  "theme.colorToggle.ariaLabel.mode.system": {
+    "message": "system mode",
+    "description": "The name for the system color mode"
+  },
+  "theme.IconExternalLink.ariaLabel": {
+    "message": "(opens in new tab)",
+    "description": "The ARIA label for the external link icon"
+  },
+  "theme.navbar.mobileDropdown.collapseButton.expandAriaLabel": {
+    "message": "Expand the dropdown",
+    "description": "The ARIA label of the button to expand the mobile dropdown navbar item"
+  },
+  "theme.navbar.mobileDropdown.collapseButton.collapseAriaLabel": {
+    "message": "Collapse the dropdown",
+    "description": "The ARIA label of the button to collapse the mobile dropdown navbar item"
+  },
+  "theme.blog.author.noPosts": {
+    "message": "该作者尚未撰写任何文章。",
+    "description": "The text for authors with 0 blog post"
   }
 }
